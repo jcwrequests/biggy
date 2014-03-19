@@ -113,7 +113,6 @@ namespace Biggy.TinyFS.Tests
                                                  dateCreated: DateTime.Parse("03/17/2014"),
                                                  someId: 22);
 
-
             tinyList.Add(document);
             tinyList.Remove(document);
 
