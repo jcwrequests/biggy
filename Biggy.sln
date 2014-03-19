@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biggy.Mongo", "Biggy.Mongo\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biggy.Mongo.Tests", "Biggy.Mongo.Tests\Biggy.Mongo.Tests.csproj", "{D7B75AB5-A799-4FFB-9AFC-BC7625572AEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biggy.TinyFS", "Biggy.TinyFS\Biggy.TinyFS.csproj", "{87FD3D68-B174-4DFE-99E6-56DAC45E526B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biggy.TinyFS.Tests", "Biggy.TinyFS.Tests\Biggy.TinyFS.Tests.csproj", "{4B7931FC-98FA-46E9-A5E1-28B83F65BDEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,14 @@ Global
 		{D7B75AB5-A799-4FFB-9AFC-BC7625572AEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7B75AB5-A799-4FFB-9AFC-BC7625572AEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7B75AB5-A799-4FFB-9AFC-BC7625572AEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87FD3D68-B174-4DFE-99E6-56DAC45E526B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87FD3D68-B174-4DFE-99E6-56DAC45E526B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87FD3D68-B174-4DFE-99E6-56DAC45E526B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87FD3D68-B174-4DFE-99E6-56DAC45E526B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B7931FC-98FA-46E9-A5E1-28B83F65BDEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B7931FC-98FA-46E9-A5E1-28B83F65BDEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B7931FC-98FA-46E9-A5E1-28B83F65BDEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B7931FC-98FA-46E9-A5E1-28B83F65BDEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
