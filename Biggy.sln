@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biggy.TinyFS", "Biggy.TinyF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biggy.TinyFS.Tests", "Biggy.TinyFS.Tests\Biggy.TinyFS.Tests.csproj", "{4B7931FC-98FA-46E9-A5E1-28B83F65BDEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biggy.TinyFS.Perf", "Biggy.TinyFS.Perf\Biggy.TinyFS.Perf.csproj", "{3EB288D0-9085-4A80-AAB6-8C771EC838FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{4B7931FC-98FA-46E9-A5E1-28B83F65BDEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B7931FC-98FA-46E9-A5E1-28B83F65BDEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B7931FC-98FA-46E9-A5E1-28B83F65BDEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EB288D0-9085-4A80-AAB6-8C771EC838FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EB288D0-9085-4A80-AAB6-8C771EC838FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EB288D0-9085-4A80-AAB6-8C771EC838FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EB288D0-9085-4A80-AAB6-8C771EC838FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

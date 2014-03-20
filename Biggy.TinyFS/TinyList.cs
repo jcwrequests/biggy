@@ -88,7 +88,8 @@ namespace Biggy.TinyFS
         var json = JsonConvert.SerializeObject(this);
         var cleaned = json.Replace("[", "").Replace("]", "").Replace(",", Environment.NewLine);
         var buff = Encoding.Default.GetBytes(json);
-
+        store.Remove(listName);
+        store.CreateFile(listName);
         store.Write(listName,buff, 0, buff.Length);
 
         //using (var fs = File.OpenWrite(this.DbPath)) {
