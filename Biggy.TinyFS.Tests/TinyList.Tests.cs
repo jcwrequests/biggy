@@ -64,7 +64,7 @@ namespace Biggy.TinyFS.Tests
                     });
             }
 
-            data.ForEach(e => tinyList.Add(e));
+            tinyList.Add(data);
 
             Assert.IsTrue(data.Count.Equals(tinyList.Count));
 
