@@ -28,9 +28,7 @@ namespace Biggy.TinyFS
 
         this.listName = Inflector.Inflector.Pluralize(thingyType).ToLower();
         store = new EmbeddedStorage(dbFileName);
-        _items = TryLoadFileData(this.listName);
-            
-        
+        _items = TryLoadFileData(this.listName);       
       }
 
 
@@ -39,8 +37,8 @@ namespace Biggy.TinyFS
         List<T> result = new List<T>();
         if (store.Exists(path)) 
             {
-              //format for the deserializer...
-              var json = "[" + UTF8Encoding.UTF8.GetString(store.Read(path)) + "]";
+                var json = UTF8Encoding.UTF8.GetString(store.Read(path));
+
               result = JsonConvert.DeserializeObject<List<T>>(json);
             }
             else
@@ -63,12 +61,14 @@ namespace Biggy.TinyFS
       }
 
       public void Add(T item) {
-        var json = JsonConvert.SerializeObject(item);
-        //append the to the file
-        var buffer = UTF8Encoding.UTF8.GetBytes(json.ToCharArray());
-        store.Write(listName, buffer, 0, buffer.Length);
-        
         base.Add(item);
+        this.FlushToDisk();
+      }
+
+        public void Add(List<T> items)
+      {
+          items.ForEach(i => base.Add(i));
+          this.FlushToDisk();
       }
 
       public void Clear() {
@@ -85,16 +85,11 @@ namespace Biggy.TinyFS
 
 
       public bool FlushToDisk() {
-        var json = JsonConvert.SerializeObject(this);
-        var cleaned = json.Replace("[", "").Replace("]", "").Replace(",", Environment.NewLine);
+      
+        var json = JsonConvert.SerializeObject(this,Formatting.None);
         var buff = Encoding.Default.GetBytes(json);
-        store.Remove(listName);
-        store.CreateFile(listName);
         store.Write(listName,buff, 0, buff.Length);
 
-        //using (var fs = File.OpenWrite(this.DbPath)) {
-        //  fs.WriteAsync(buff, 0, buff.Length);
-        //}
         return true;
       }
       bool disposed = false;

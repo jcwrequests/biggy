@@ -102,9 +102,11 @@ namespace Biggy.TinyFS.Tests
             tinyList.Add(document);
             document.Name = "TEST";
             tinyList.FlushToDisk();
+            tinyList.Reload();
 
             var result = tinyList.Where(e => e.SomeId.Equals(22)).First();
             Assert.IsTrue(result.Name.Equals(document.Name));
+            
         }
         [TestMethod]
         public void Delete()
@@ -117,6 +119,7 @@ namespace Biggy.TinyFS.Tests
             tinyList.Remove(document);
 
             Assert.IsTrue(tinyList.Count.Equals(0));
+            
         }
     }
 
