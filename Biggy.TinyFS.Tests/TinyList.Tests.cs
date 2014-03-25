@@ -121,6 +121,23 @@ namespace Biggy.TinyFS.Tests
             Assert.IsTrue(tinyList.Count.Equals(0));
             
         }
+        [TestMethod]
+        public void WritingToTwoLists()
+        {
+            TinyList<AnotherEntity> anotherTinyList = new TinyList<AnotherEntity>(@"./store.tiny");
+
+            SomeEntity document1 = new SomeEntity(name: "Tiny",
+                                                 dateCreated: DateTime.Parse("03/17/2014"),
+                                                 someId: 22);
+
+            AnotherEntity document2 = new AnotherEntity(name: "Tiny",
+                                                 dateCreated: DateTime.Parse("03/17/2014"),
+                                                 someId: 22);
+
+            tinyList.Add(document1);
+            anotherTinyList.Add(document2);
+
+        }
     }
 
 }

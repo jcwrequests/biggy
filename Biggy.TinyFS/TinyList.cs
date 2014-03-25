@@ -16,7 +16,14 @@ namespace Biggy.TinyFS
 
       public bool InMemory { get; set; }
       
-
+      public TinyList(EmbeddedStorage store, string listName)
+      {
+          if (store == null) throw new ArgumentNullException("store");
+          this.store = store;
+          this.InMemory = false;
+          this.listName = listName;
+          _items = TryLoadFileData(this.listName); 
+      }
       public TinyList(string dbFileName)
       {
 
@@ -31,14 +38,13 @@ namespace Biggy.TinyFS
         _items = TryLoadFileData(this.listName);       
       }
 
-
-      public List<T> TryLoadFileData(string path) {
+      
+       public List<T> TryLoadFileData(string path) {
 
         List<T> result = new List<T>();
         if (store.Exists(path)) 
             {
                 var json = UTF8Encoding.UTF8.GetString(store.Read(path));
-
               result = JsonConvert.DeserializeObject<List<T>>(json);
             }
             else
