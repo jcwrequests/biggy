@@ -53,6 +53,7 @@ namespace Biggy.TinyFS.Tests
 
             db.AddTable("test").Add(document);
             db.AddTable("test2").Add(document2);
+            db.AddTypedTable("test3", typeof(SomeEntity)).Add(document);
 
             Assert.IsTrue(db.test.Count.Equals(1));
             Assert.IsTrue(db.test2.Count.Equals(1));

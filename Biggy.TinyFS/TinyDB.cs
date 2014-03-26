@@ -13,7 +13,7 @@ namespace Biggy.TinyFS
 {
     public class TinyDB : DynamicObject , IDisposable
     {
-        ConcurrentDictionary<string, TinyList<dynamic>> tables;
+        ConcurrentDictionary<string, dynamic> tables;
         private EmbeddedStorage store;
 
         public TinyDB(string dbFileName)
@@ -21,7 +21,7 @@ namespace Biggy.TinyFS
             if (string.IsNullOrEmpty(dbFileName)) throw new ArgumentNullException("dbFileName");
 
             store = new EmbeddedStorage(dbFileName);
-            tables = new ConcurrentDictionary<string, TinyList<dynamic>>();
+            tables = new ConcurrentDictionary<string, dynamic>();
             store.Files().ForEach(f => tables.TryAdd(f.Name, new TinyList<dynamic>(store,f.Name))); 
            
           
@@ -30,15 +30,8 @@ namespace Biggy.TinyFS
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            if (binder.Name.StartsWith("AddTable", StringComparison.InvariantCultureIgnoreCase))
+            if (binder.Name.Equals("AddTable", StringComparison.InvariantCultureIgnoreCase))
             {
-                //string key = binder.Name.Substring(8);
-                //if (!tables.ContainsKey(key))
-                //{
-                //    tables.TryAdd(key,new TinyList<dynamic>(store,key));
-                //}
-                //result = tables[key];
-                //return true;
                  Func<string,TinyList<dynamic>> addTable = (string tableName) => 
                  {
                     string key = tableName;
@@ -51,6 +44,27 @@ namespace Biggy.TinyFS
 
                  result = addTable;
                  return true;
+
+            }
+            if (binder.Name.Equals("AddTypedTable", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Func<string,Type, dynamic> addTable = (string tableName, System.Type type) =>
+                {
+                    string key = tableName;
+                    if (!tables.ContainsKey(key))
+                    {
+                        Type tableType = typeof(TinyList<>);
+                        Type[] typeArgs = { type };
+                        Type constructed = tableType.MakeGenericType(typeArgs);
+                        object[] args = {store,key};
+                        var newTable = Activator.CreateInstance(constructed,args);
+                        tables.TryAdd(key, newTable);
+                    }
+                    return tables[key];
+                };
+
+                result = addTable;
+                return true;
 
             }
             if (!tables.ContainsKey(binder.Name)) return base.TryGetMember(binder, out result);
