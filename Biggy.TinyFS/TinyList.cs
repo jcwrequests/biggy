@@ -9,7 +9,7 @@ using TinyFS;
 
 namespace Biggy.TinyFS
 {
-    public class TinyList<T> :InMemoryList<T> where T: new() {
+    public class TinyList<T> :InMemoryList<T>, ITinyTable where T: new()  {
 
       private EmbeddedStorage store;
       private string listName;
@@ -45,7 +45,8 @@ namespace Biggy.TinyFS
         if (store.Exists(path)) 
             {
                 var json = UTF8Encoding.UTF8.GetString(store.Read(path));
-              result = JsonConvert.DeserializeObject<List<T>>(json);
+                result = JsonConvert.DeserializeObject<List<T>>(json);
+                if (result == null) result = _items;
             }
             else
             {

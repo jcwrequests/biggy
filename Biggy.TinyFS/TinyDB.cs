@@ -22,27 +22,44 @@ namespace Biggy.TinyFS
 
             store = new EmbeddedStorage(dbFileName);
             tables = new ConcurrentDictionary<string, TinyList<dynamic>>();
-            store.Files().ForEach(f => tables.TryAdd(f.Name, new TinyList<dynamic>(store,f.Name)));
+            store.Files().ForEach(f => tables.TryAdd(f.Name, new TinyList<dynamic>(store,f.Name))); 
+           
+          
         }
 
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            
-            if (!tables.ContainsKey(binder.Name))
-                        {
-                            tables.TryAdd(binder.Name,new TinyList<dynamic>(store,binder.Name));
-                        }
+            if (binder.Name.StartsWith("AddTable", StringComparison.InvariantCultureIgnoreCase))
+            {
+                //string key = binder.Name.Substring(8);
+                //if (!tables.ContainsKey(key))
+                //{
+                //    tables.TryAdd(key,new TinyList<dynamic>(store,key));
+                //}
+                //result = tables[key];
+                //return true;
+                 Func<string,TinyList<dynamic>> addTable = (string tableName) => 
+                 {
+                    string key = tableName;
+                    if (!tables.ContainsKey(key))
+                    {
+                        tables.TryAdd(key,new TinyList<dynamic>(store,key));
+                    }
+                    return tables[key];
+                 };
 
+                 result = addTable;
+                 return true;
+
+            }
+            if (!tables.ContainsKey(binder.Name)) return base.TryGetMember(binder, out result);
+           
             result = tables[binder.Name];
             return true;
            
-            
         }
-        public override bool TryConvert(ConvertBinder binder, out object result)
-        {
-            return base.TryConvert(binder, out result);
-        }
+       
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
             if (tables.ContainsKey(binder.Name)) return false;
@@ -66,7 +83,7 @@ namespace Biggy.TinyFS
             }
             return base.TryGetIndex(binder, indexes, out result);
         }
-
+       
         public void Save()
         {
             tables.Values.ToList().ForEach(t => t.FlushToDisk());

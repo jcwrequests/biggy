@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITinyTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TinyDB.cs" />
     <Compile Include="TinyList.cs" />
