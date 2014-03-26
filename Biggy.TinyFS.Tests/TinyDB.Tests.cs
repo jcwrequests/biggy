@@ -29,7 +29,7 @@ namespace Biggy.TinyFS.Tests
             db.Dispose();
         }
         [TestMethod]
-        public void Get_Table()
+        public void Create_Table()
         {
             dynamic db = new TinyDB(dbFilePath);
             TinyList<dynamic> test = db.AddTable("test");
@@ -37,7 +37,7 @@ namespace Biggy.TinyFS.Tests
             db.Dispose();
         }
         [TestMethod]
-        public void Add_Items_To_DB()
+        public void Add_Items_To_DBTable()
         {
             dynamic db = new TinyDB(dbFilePath);
             
