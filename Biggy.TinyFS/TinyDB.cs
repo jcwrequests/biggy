@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Collections;
-
+using Newtonsoft.Json;
 using TinyFS;
 
 namespace Biggy.TinyFS
@@ -14,7 +14,9 @@ namespace Biggy.TinyFS
     public class TinyDB : DynamicObject , IDisposable
     {
         ConcurrentDictionary<string, dynamic> tables;
+        ConcurrentDictionary<string, Type> tableTypes;
         private EmbeddedStorage store;
+        const string tinyTableTypes = "tinyTableTypes";
 
         public TinyDB(string dbFileName)
         {
@@ -22,9 +24,22 @@ namespace Biggy.TinyFS
 
             store = new EmbeddedStorage(dbFileName);
             tables = new ConcurrentDictionary<string, dynamic>();
-            store.Files().ForEach(f => tables.TryAdd(f.Name, new TinyList<dynamic>(store,f.Name))); 
+            tableTypes = new ConcurrentDictionary<string, Type>();
+            LoadTypes();
+
+            store.
+                Files().
+                Where(f => f.Name != "tinyTableTypes").
+                ToList().
+                ForEach(f => 
+                        {
+                            Type listType;
+                            tableTypes.TryGetValue(f.Name, out listType);
+                            var table = CreateTable(f.Name, listType);
+                            tables.TryAdd(f.Name, table);
+                        }); 
+
            
-          
         }
 
 
@@ -38,6 +53,8 @@ namespace Biggy.TinyFS
                     if (!tables.ContainsKey(key))
                     {
                         tables.TryAdd(key,new TinyList<dynamic>(store,key));
+                        tableTypes.TryAdd(key, typeof(object));
+                        StoreTypes();
                     }
                     return tables[key];
                  };
@@ -53,12 +70,10 @@ namespace Biggy.TinyFS
                     string key = tableName;
                     if (!tables.ContainsKey(key))
                     {
-                        Type tableType = typeof(TinyList<>);
-                        Type[] typeArgs = { type };
-                        Type constructed = tableType.MakeGenericType(typeArgs);
-                        object[] args = {store,key};
-                        var newTable = Activator.CreateInstance(constructed,args);
+                        var newTable = CreateTable(tableName, type);
                         tables.TryAdd(key, newTable);
+                        tableTypes.TryAdd(key, type);
+                        StoreTypes();
                     }
                     return tables[key];
                 };
@@ -79,7 +94,7 @@ namespace Biggy.TinyFS
             if (tables.ContainsKey(binder.Name)) return false;
             if (!value.GetType().BaseType.IsGenericType) return false;
             if (!value.GetType().BaseType.Equals(typeof(TinyList<>))) return false;
-            tables.TryAdd(binder.Name, (TinyList<dynamic>)value);
+            tables.TryAdd(binder.Name, value);
             return true;
 
         }
@@ -97,7 +112,29 @@ namespace Biggy.TinyFS
             }
             return base.TryGetIndex(binder, indexes, out result);
         }
-       
+        private  dynamic CreateTable(string tableName, System.Type type)
+        {
+            Type tableType = typeof(TinyList<>);
+            Type[] typeArgs = { type };
+            Type constructed = tableType.MakeGenericType(typeArgs);
+            object[] args = { store, tableName };
+            var newTable = Activator.CreateInstance(constructed, args);
+            return newTable;
+        }
+        private void StoreTypes()
+        {
+            var json = JsonConvert.SerializeObject(tableTypes, Formatting.None);
+            var buff = Encoding.Default.GetBytes(json);
+            store.Write(tinyTableTypes, buff, 0, buff.Length);
+        }
+        private void LoadTypes()
+        {
+            if (!store.Exists(tinyTableTypes)) store.CreateFile(tinyTableTypes);
+
+            var json = UTF8Encoding.UTF8.GetString(store.Read(tinyTableTypes));
+            var result = JsonConvert.DeserializeObject<ConcurrentDictionary<string, Type>>(json);
+            if (result != null) this.tableTypes = result;
+        }
         public void Save()
         {
             tables.Values.ToList().ForEach(t => t.FlushToDisk());

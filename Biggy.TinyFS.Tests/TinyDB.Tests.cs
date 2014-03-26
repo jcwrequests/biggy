@@ -59,6 +59,7 @@ namespace Biggy.TinyFS.Tests
             Assert.IsTrue(db.test2.Count.Equals(1));
            
             db.Dispose();
+
         }
         [TestMethod]
         public void Update_Items_In_DB()
