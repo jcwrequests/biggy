@@ -86,5 +86,16 @@ namespace Biggy.TinyFS.Tests
 
             db.Dispose();
         }
+        [TestMethod]
+        public void Remove_Table_In_DB()
+        {
+            dynamic db = new TinyDB(dbFilePath);
+            db.AddTable("test");
+            db.AddTypedTable("test3", typeof(SomeEntity));
+            Assert.IsTrue(db.TableCount.Equals(2));
+            db.RemoveTable("test");
+            Assert.IsTrue(db.TableCount.Equals(1));
+            db.Dispose();
+        }
     }
 }

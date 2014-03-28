@@ -82,6 +82,25 @@ namespace Biggy.TinyFS
                 return true;
 
             }
+            if (binder.Name.Equals("RemoveTable", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Action<string> removeTable = (string tableName) =>
+                    {
+                        Type value;
+                        tableTypes.TryRemove(tableName, out value);
+                        store.Remove(tableName);
+                        dynamic value2;
+                        tables.TryRemove(tableName, out value2);
+
+                    };
+                result = removeTable;
+                return true;
+            }
+            if (binder.Name.Equals("TableCount", StringComparison.InvariantCultureIgnoreCase))
+            {
+                result = tables.Count();
+                return true;
+            }
             if (!tables.ContainsKey(binder.Name)) return base.TryGetMember(binder, out result);
            
             result = tables[binder.Name];
