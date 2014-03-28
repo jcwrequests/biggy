@@ -29,7 +29,7 @@ namespace Biggy.TinyFS
 
             store.
                 Files().
-                Where(f => f.Name != "tinyTableTypes").
+                Where(f => f.Name != tinyTableTypes).
                 ToList().
                 ForEach(f => 
                         {
@@ -49,6 +49,10 @@ namespace Biggy.TinyFS
             {
                  Func<string,TinyList<dynamic>> addTable = (string tableName) => 
                  {
+                     if (tableName.Equals(tinyTableTypes, 
+                                          StringComparison.InvariantCultureIgnoreCase)) 
+                         throw new ArgumentException("Invalid Table Name");
+
                     string key = tableName;
                     if (!tables.ContainsKey(key))
                     {
@@ -67,6 +71,10 @@ namespace Biggy.TinyFS
             {
                 Func<string,Type, dynamic> addTable = (string tableName, System.Type type) =>
                 {
+                    if (tableName.Equals(tinyTableTypes,
+                                          StringComparison.InvariantCultureIgnoreCase))
+                        throw new ArgumentException("Invalid Table Name");
+
                     string key = tableName;
                     if (!tables.ContainsKey(key))
                     {
