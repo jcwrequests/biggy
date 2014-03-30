@@ -1,5 +1,5 @@
 #Biggy + TinyFS = TinyDB
-Rob Conery's Biggy Open Source Project has basically turned \\\List<T>\\\. into a simple easy to use Document Database using LINQ as it's query Language.
+Rob Conery's Biggy Open Source Project has basically turned List<<T>>. into a simple easy to use Document Database using LINQ as it's query Language.
 
 If you love using NoSQL solutions like MongoDB but wish you they had an embedded version that could be used with smart clients then this is the project for you. 
 
