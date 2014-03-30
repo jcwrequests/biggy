@@ -1,9 +1,9 @@
 #Biggy + TinyFS = TinyDB
 Rob Conery's Biggy Open Source Project has basically turned <span>List&lt;T&gt;</span> into a simple easy to use Document Database using LINQ as it's query Language.
 
-If you love using NoSQL solutions like MongoDB but wish you they had an embedded version that could be used with smart clients then this is the project for you. 
+If you love using NoSQL solutions like MongoDB but wish they had an embedded version that could be used with smart clients then this is the project for you. 
 
-Biggy has the Biggy List which allows your to store one List<T> per file but if you have more then one List<T> and want them to be stored in a single store then you may want to consider TinyDB.
+Biggy has the <span>BiggyList&lt;T&gt;</span> which allows your to store one <span>List&lt;T&gt;</span> per file but if you have more then one <span>List&lt;T&gt;</span> and want them to be stored in a single store then you may want to consider TinyDB.
 
 TinyDB combines the work of Benny Olsson's Tiny FS(https://github.com/Aztherion/TinyFS.Net) and Biggy. Tiny FS provides the storage and Biggy provides the rest.
 
