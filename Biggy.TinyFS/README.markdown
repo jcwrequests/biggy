@@ -43,5 +43,13 @@ Here is an example using Dynamic and type entity
 	
 	var doc = table.Where(d => d.Name.Equals("test").FirstOrDefault;
 	
+	TinyList<SomeEntity> testTable = db.test;
+	var queryResult1 = 
+		testTable.Where(i => i.SomeId == 1);
+
+	var queryResult2 = 
+		((TinyList<SomeEntity>)db.test2).Where(t => t.SomeId == 2);
+	
+	
 ```
 

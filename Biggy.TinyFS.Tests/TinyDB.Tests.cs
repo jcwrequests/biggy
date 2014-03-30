@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Biggy.TinyFS.Tests.ValueObjects;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Biggy.TinyFS.Tests
 {
@@ -82,6 +83,8 @@ namespace Biggy.TinyFS.Tests
             document.Name = "Tiny2";
             document2.Name = "TinyTiny";
 
+            var result = ((TinyList<dynamic>)db.test).Where(t => t.SomeId == 22);
+            
             db.Save();
 
             db.Dispose();
@@ -95,6 +98,37 @@ namespace Biggy.TinyFS.Tests
             Assert.IsTrue(db.TableCount.Equals(2));
             db.RemoveTable("test");
             Assert.IsTrue(db.TableCount.Equals(1));
+            db.Dispose();
+        }
+        [TestMethod]
+        public void Query_Tables_In_DB()
+        {
+            dynamic db = new TinyDB(dbFilePath);
+       
+            SomeEntity document =
+                new SomeEntity(name: "Tiny",
+                               dateCreated: DateTime.Parse("03/17/2014"),
+                               someId: 22);
+
+            AnotherEntity document2 =
+                new AnotherEntity(name: "Tiny",
+                                  dateCreated: DateTime.Parse("03/17/2014"),
+                                  someId: 22);
+
+            db.AddTable("test2").Add(document2);
+
+            db.AddTypedTable("test", typeof(SomeEntity)).
+                Add(document);
+
+
+            TinyList<SomeEntity> testTable = db.test;
+            var queryResult1 = testTable.Where(i => i.SomeId == 22);
+
+            Assert.IsTrue(queryResult1.Count().Equals(1));
+
+            var queryResult2 = ((TinyList<dynamic>)db.test2).Where(t => t.SomeId == 22);
+
+            Assert.IsTrue(queryResult2.Count().Equals(1));
             db.Dispose();
         }
     }

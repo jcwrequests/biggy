@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using System.Collections;
 using Newtonsoft.Json;
 using TinyFS;
+using System.Linq.Expressions;
 
 namespace Biggy.TinyFS
 {
@@ -45,6 +46,7 @@ namespace Biggy.TinyFS
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
+            
             if (binder.Name.Equals("AddTable", StringComparison.InvariantCultureIgnoreCase))
             {
                  Func<string,TinyList<dynamic>> addTable = (string tableName) => 

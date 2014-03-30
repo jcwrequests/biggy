@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TinyFS;
+using System.Linq.Expressions;
 
 namespace Biggy.TinyFS
 {
@@ -72,12 +73,13 @@ namespace Biggy.TinyFS
         this.FlushToDisk();
       }
 
-        public void Add(List<T> items)
+      public void Add(List<T> items)
       {
           items.ForEach(i => base.Add(i));
           this.FlushToDisk();
       }
 
+      
       public void Clear() {
         base.Clear();
         this.FlushToDisk();
@@ -123,5 +125,7 @@ namespace Biggy.TinyFS
           //
           disposed = true;
       }
+
+     
     }
 }
