@@ -70,6 +70,8 @@ Here is an example using Dynamic and type entity
  * TinyDB.Save() - Forces any changes to be flushed to disk
 
  * TinyDB.Dispose()
+* Properties - Tables added
+ * TinyDB.[TableName] 
  
 
 
