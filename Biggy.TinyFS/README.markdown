@@ -58,10 +58,13 @@ Currently TinyDB has following API
 Constructor TinyDB(string dbFileName) - full path to the DB File
 
 Methods
+..*
 *TinyDB.AddTable(string TableName) - Adds a Dynamic TinyList<span>&lt;T&gt;</span>
 *TinyDB.AddTypedTable(string TableName, Type EnityType) - Adds a Typed TinyList<span>&lt;T&gt;</span>
 *TinyDB.RemoveTable(string TableName) - Removes Table from Store
 *TinyDB.TableCount() - Returns the total number of tables
 *TinyDB.Save() - Forces any changes to be flushed to disk
 *TinyDB.Dispose()
+...
+
 
