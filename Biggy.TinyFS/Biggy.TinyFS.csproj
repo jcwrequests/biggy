@@ -56,6 +56,7 @@
     <Compile Include="TinyDB.cs" />
     <Compile Include="TinyList.cs" />
     <Compile Include="TinyQueue.cs" />
+    <Compile Include="TinyQueues.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Biggy\Biggy.csproj">
