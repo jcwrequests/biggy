@@ -10,12 +10,18 @@ namespace Biggy.TinyFS
     {
         TinyList<T> store;
         object queueLock;
-        public TinyQueue(TinyList<T> store)
+        string queueName;
+        public TinyQueue(TinyList<T> store, string queueName)
         {
             if (store == null) throw new ArgumentNullException("store");
+            if (string.IsNullOrEmpty(queueName)) throw new ArgumentNullException("queueName");
+
             queueLock = new object();
             this.store = store;
+            this.queueName = queueName;
         }
+        public string QueueName { get { return queueName; } }
+
         public void EnQueue(T item){
             lock (queueLock)
             {
