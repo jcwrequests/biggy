@@ -17,6 +17,9 @@ namespace Biggy.TinyFS
         {
             if (db == null) throw new ArgumentNullException("db");
             this.db = db;
+            
+            queues = new ConcurrentDictionary<string, dynamic>(StringComparer.InvariantCultureIgnoreCase);
+
             db.Cast<KeyValuePair<string, dynamic>>().
                 ToList().
                 ForEach(pair => queues.TryAdd(pair.Key, pair.Value));
@@ -24,18 +27,25 @@ namespace Biggy.TinyFS
         }
         public TinyQueue<T> CreateQueue<T>(string queueName)
         {
-           
-           var table = db.AddTypedTable(queueName, typeof(T));
-           var queue = new TinyQueue<T>(table,queueName);
-           queues.TryAdd(queueName, queue);
-           return queue;
+            if (!queues.ContainsKey(queueName))
+            {
+                var table = db.AddTypedTable(queueName, typeof(T));
+                var queue = new TinyQueue<T>(table,queueName);
+                queues.TryAdd(queueName, queue);
+                return queue;
+            }
+            throw new Exception(string.Format("{0} queue Exists", queueName));
         }
         public TinyQueue<dynamic> CreateQueue(string queueName)
         {
-            var table = db.AddTable(queueName);
-            var queue = new TinyQueue<dynamic>(table,queueName);
-            queues.TryAdd(queueName, queue);
-            return queue;
+            if (!queues.ContainsKey(queueName))
+            {
+                var table = db.AddTable(queueName);
+                var queue = new TinyQueue<dynamic>(table,queueName);
+                queues.TryAdd(queueName, queue);
+                return queue;
+            }
+            throw new Exception(string.Format("{0} queue Exists", queueName));   
         }
 
         public IEnumerator<dynamic> GetEnumerator()
