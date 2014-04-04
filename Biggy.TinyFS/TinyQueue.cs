@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Biggy.TinyFS
 {
-    public class TinyQueue<T> 
+    public class TinyQueue<T> where T : class, new()
     {
         TinyList<T> store;
         object queueLock;
         string queueName;
-        public TinyQueue(TinyList<T> store, string queueName)
+        internal TinyQueue(TinyList<T> store, string queueName)
         {
             if (store == null) throw new ArgumentNullException("store");
             if (string.IsNullOrEmpty(queueName)) throw new ArgumentNullException("queueName");

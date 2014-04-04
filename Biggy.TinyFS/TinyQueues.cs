@@ -7,25 +7,25 @@ using System.Threading.Tasks;
 
 namespace Biggy.TinyFS
 {
-    public class TinyQueues : IEnumerable<dynamic> , IDisposable
+    public class TinyQueues : IEnumerable<object> , IDisposable
     {
         dynamic db;
         
         ConcurrentDictionary<string, dynamic> queues;
 
-        public TinyQueues(TinyDB db)
+        public TinyQueues(string queuePath)
         {
-            if (db == null) throw new ArgumentNullException("db");
-            this.db = db;
-            
+            if (queuePath == null) throw new ArgumentNullException("queuePath");
+            db = new TinyDB(queuePath);
+          
             queues = new ConcurrentDictionary<string, dynamic>(StringComparer.InvariantCultureIgnoreCase);
 
-            db.Cast<KeyValuePair<string, dynamic>>().
+            ((TinyDB)db).Cast<KeyValuePair<string, dynamic>>().
                 ToList().
                 ForEach(pair => queues.TryAdd(pair.Key, pair.Value));
 
         }
-        public TinyQueue<T> CreateQueue<T>(string queueName)
+        public TinyQueue<T> CreateQueue<T>(string queueName) where T : class, new()
         {
             if (!queues.ContainsKey(queueName))
             {

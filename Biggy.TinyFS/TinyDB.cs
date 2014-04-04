@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 
 namespace Biggy.TinyFS
 {
-    public class TinyDB : DynamicObject , IDisposable, IEnumerable<dynamic>
+    public class TinyDB : DynamicObject , IDisposable, IEnumerable<object>
     {
         ConcurrentDictionary<string, dynamic> tables;
         ConcurrentDictionary<string, Type> tableTypes;
@@ -194,14 +194,16 @@ namespace Biggy.TinyFS
             disposed = true;
         }
 
-        public IEnumerator<dynamic> GetEnumerator()
+
+
+        public IEnumerator<object> GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.tables.GetEnumerator();
+            return this.tables.Values.GetEnumerator();
         }
     }
 }

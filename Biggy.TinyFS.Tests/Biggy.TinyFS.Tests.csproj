@@ -70,6 +70,7 @@
     <Compile Include="TinyList.Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TinyDB.Tests.cs" />
+    <Compile Include="TinyQueues.Tests.cs" />
     <Compile Include="ValueObjects\AnotherEntity.cs" />
     <Compile Include="ValueObjects\SomeEntity.cs" />
   </ItemGroup>
