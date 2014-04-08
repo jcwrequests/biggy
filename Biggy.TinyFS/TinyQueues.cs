@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Biggy.TinyFS
 {
-    public class TinyQueues : IEnumerable<object> , IDisposable
+    public class TinyQueues :  IDisposable
     {
         dynamic db;
         
@@ -22,7 +22,10 @@ namespace Biggy.TinyFS
 
             ((TinyDB)db).Cast<KeyValuePair<string, dynamic>>().
                 ToList().
-                ForEach(pair => queues.TryAdd(pair.Key, pair.Value));
+                ForEach(pair => queues.TryAdd(pair.Key,new TinyQueue<dynamic>(pair.Value,pair.Key)));
+            //var tables = ((TinyDB)db).ToList();
+
+
 
         }
         public TinyQueue<T> CreateQueue<T>(string queueName) where T : class, new()
@@ -48,16 +51,15 @@ namespace Biggy.TinyFS
             throw new Exception(string.Format("{0} queue Exists", queueName));   
         }
 
-        public IEnumerator<dynamic> GetEnumerator()
+        public IEnumerable<string> QueueNames()
         {
-            return this.GetEnumerator();
+            return queues.Keys;
         }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        public TinyQueue<dynamic> GetQueueByName(string queueName)
         {
-            return this.queues.Values.GetEnumerator();
+            if (queues.ContainsKey(queueName)) return queues[queueName];
+            return null;
         }
-
         public void Dispose()
         {
             if (db != null) db.Dispose();

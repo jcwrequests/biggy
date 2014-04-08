@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace Biggy.TinyFS.Tests
 {
@@ -61,6 +62,29 @@ namespace Biggy.TinyFS.Tests
             Assert.IsFalse(item == null);
             Assert.IsTrue(item.name == "test");
             queues.Dispose();
+        }
+
+        [TestMethod]
+        public void AddItemCloseQueuesThenOpenAgainAndDequeueAnItem()
+        {
+            TinyQueues queues = new TinyQueues(dbFilePath);
+
+            var queue = queues.CreateQueue("test");
+            var now = DateTime.Now;
+            queue.EnQueue(new { name = "test", time = now });
+            queues.Dispose();
+            queue = null;
+
+            queues = new TinyQueues(dbFilePath);
+            queue = queues.GetQueueByName("test");
+            var item = queue.DeQueue();
+            queues.Dispose();
+
+            Assert.IsTrue(item.name == "test" && item.time == now);
+
+
+
+
         }
     }
 }
