@@ -23,9 +23,6 @@ namespace Biggy.TinyFS
             ((TinyDB)db).Cast<KeyValuePair<string, dynamic>>().
                 ToList().
                 ForEach(pair => queues.TryAdd(pair.Key,new TinyQueue<dynamic>(pair.Value,pair.Key)));
-            //var tables = ((TinyDB)db).ToList();
-
-
 
         }
         public TinyQueue<T> CreateQueue<T>(string queueName) where T : class, new()

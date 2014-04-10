@@ -74,4 +74,27 @@ Here is an example using Dynamic and type entity
  * TinyDB.[TableName] 
  
 
+#Biggy + TinyFS + TinyDB + Queues = TinyQueues
+
+TinyQueues takes advantage of TinyDB to create a portable persist-able queue system. 
+
+If you ever wished that you could have simple in memory queues that persisted to disk for your smart application then you might want to consider TinyQueues.
+
+Here is an example of the API.
+
+```csharp
+
+	string dbFilePath = @"./queues.db";
+	TinyQueues queues = new TinyQueues(dbFilePath);
+	
+	//create a queue names test
+	var queue = queues.CreateQueue("test");
+	//Enqueue and Anonymous Object, Dynamic or Typed object
+    queue.EnQueue(new { name = "test", time = DateTime.Now });
+	//DeQueue item
+	var item = queue.DeQueue();
+	
+	queues.Dispose();
+	
+ ```
 
