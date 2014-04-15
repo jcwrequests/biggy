@@ -46,7 +46,8 @@ namespace Biggy.TinyFS
         if (store.Exists(path)) 
             {
                 var json = UTF8Encoding.UTF8.GetString(store.Read(path));
-                result = JsonConvert.DeserializeObject<List<T>>(json);
+                JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                result = JsonConvert.DeserializeObject<List<T>>(json,settings);
                 if (result == null) result = _items;
             }
             else
@@ -94,8 +95,8 @@ namespace Biggy.TinyFS
 
 
       public bool FlushToDisk() {
-      
-        var json = JsonConvert.SerializeObject(this,Formatting.None);
+          JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        var json = JsonConvert.SerializeObject(_items,Formatting.None,settings);
         var buff = Encoding.Default.GetBytes(json);
         store.Write(listName,buff, 0, buff.Length);
 
