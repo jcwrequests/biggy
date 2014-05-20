@@ -51,9 +51,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConcurrencyExcepton.cs" />
+    <Compile Include="IDocument.cs" />
     <Compile Include="ITinyTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TinyDB.cs" />
+    <Compile Include="TinyDocumentStore.cs" />
     <Compile Include="TinyList.cs" />
     <Compile Include="TinyQueue.cs" />
     <Compile Include="TinyQueues.cs" />
